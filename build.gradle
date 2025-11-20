@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'com.adarshr.test-logger' version '4.0.0'
+}
+
+group = 'web.prbetter'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// 모든 의존성을 포함한 fat jar을 만들기 위한 설정
+jar {
+    manifest {
+        attributes 'Main-Class': 'prbetter.Application'
+    }
+    enabled=true
+    archiveClassifier = ''
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // slf4j
+    implementation('org.slf4j:slf4j-api:1.7.25')
+
+    // lombok
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
+    testCompileOnly("org.projectlombok:lombok:1.18.42")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
+
+    // junit
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    // assertj
+    testImplementation 'org.assertj:assertj-core:3.6.1'
+    // mockito
+    testImplementation "org.mockito:mockito-core:5.+"
+}
+
+test {
+    useJUnitPlatform()
+    testlogger {
+        theme 'mocha'
+    }
+}
