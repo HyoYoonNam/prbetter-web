@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome page</title>
+    <link rel="icon" href="data:,">
+    <style>
+        .button {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .button {
+            width: 100%;
+        }
+
+        .button:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+<h1>PR Better</h1>
+
+<form action="/better" method="get">
+    <select name="language" id="language-select">
+        <option value="">--언어를 선택해 주세요.--</option>
+        <option value="java">Java</option>
+        <option value="kotlin">Kotlin</option>
+        <option value="javascript">Javascript</option>
+    </select>
+
+    <select name="mission" id="mission-select">
+        <option value="">--미션을 선택해 주세요.--</option>
+        <option value="calculator-8">문자열 덧셈 계산기</option>
+        <option value="racingcar-8">레이싱 게임</option>
+        <option value="lotto-8">로또</option>
+    </select>
+    <button class="button">Better!</button>
+</form>
+
+</body>
+</html>
