@@ -1,5 +1,6 @@
 package prbetter.core.service;
 
+import lombok.extern.slf4j.Slf4j;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.repository.PullRequestRepository;
@@ -10,6 +11,7 @@ import prbetter.core.repository.PullRequestRepository;
  * <p>이 클래스는 {@code final}이므로 상속이 불가하다.
  */
 
+@Slf4j
 public final class PullRequestLoadService {
     private final PullRequestRepository pullRequestRepository;
     private final PullRequestReadService readService;
@@ -36,8 +38,10 @@ public final class PullRequestLoadService {
      * @see PullRequest#isValidTitle()
      */
     public void load(GitHubRepositoryName name) {
+        log.info("load from {}", name.value());
         readService.readAllPages(name).stream()
                 .filter(PullRequest::isValidTitle)
                 .forEach(pr -> pullRequestRepository.save(name, pr));
+        log.info("Now, Server has {} pull requests", pullRequestRepository.sizeOf(name));
     }
 }

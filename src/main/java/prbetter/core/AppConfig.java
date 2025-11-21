@@ -13,7 +13,7 @@ import prbetter.core.service.PullRequestRecommendService;
  */
 
 public class AppConfig {
-    private final MemoryPullRequestRepository repository = new MemoryPullRequestRepository();
+    private static final MemoryPullRequestRepository repository = new MemoryPullRequestRepository();
 
     public PullRequestController controller() {
         return new PullRequestController(repository(), loadService(), recommendService());

@@ -1,5 +1,6 @@
 package prbetter.core.controller;
 
+import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.repository.PullRequestRepository;
 import prbetter.core.service.PullRequestLoadService;
 import prbetter.core.service.PullRequestRecommendService;
@@ -25,5 +26,7 @@ public final class PullRequestController {
 
     /** 프로그램을 시작한다. */
     public void run() {
+        // 테스트용 임시 로드
+        loadService.load(new GitHubRepositoryName("kotlin-lotto-8"));
     }
 }
