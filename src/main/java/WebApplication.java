@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import lombok.extern.slf4j.Slf4j;
+import prbetter.core.AppConfig;
+import prbetter.core.controller.PullRequestController;
 
 @Slf4j
 public class WebApplication {
@@ -14,9 +16,15 @@ public class WebApplication {
 
     public static void main(String[] args) throws IOException {
         log.info("Application start");
+        AppConfig appConfig = new AppConfig();
+        PullRequestController controller = new PullRequestController(
+                appConfig.repository(),
+                appConfig.loadService(),
+                appConfig.recommendService());
+
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), SYSTEM_DEFAULT_BACKLOG);
         server.createContext("/", new MyHandler());
-        log.info("MyServer wakes up: port={}", PORT);
+        log.info("Server wakes up: port={}", PORT);
         server.start();
     }
 
