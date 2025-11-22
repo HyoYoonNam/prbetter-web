@@ -43,3 +43,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### API 호출 제한용 토큰 ###
+**/GITHUB_TOKEN

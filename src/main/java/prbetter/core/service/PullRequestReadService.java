@@ -7,9 +7,12 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.mapper.JsonPullRequestMapper;
+import prbetter.util.FileUtils;
 
 /**
  * 이 클래스는 GitHub API를 호출하여 특정 깃허브 리포지토리의 Pull request 목록을 읽어 오는 책임을 가진다.
@@ -17,6 +20,7 @@ import prbetter.core.mapper.JsonPullRequestMapper;
  * <p>이 클래스는 {@code final}이므로 상속이 불가하다.
  */
 
+@Slf4j
 public final class PullRequestReadService {
     private static final String API_URI_PREFIX = "https://api.github.com/repos/woowacourse-precourse/";
     private static final String API_URI_POSTFIX = "/pulls";
@@ -41,9 +45,9 @@ public final class PullRequestReadService {
      *
      * @param name Pull request를 읽어 올 리포지토리의 이름
      * @return Pull request 목록
-     * @throws IllegalStateException 다음 경우에 발생한다.
-     *         - API 요청 중 통신 오류나 스레드 인터럽트가 생겨 서버가 수신하지 못한 경우
-     *         - API 요청을 서버가 수신했으나, 실패한 응답(코드)을 받은 경우
+     * @throws IllegalStateException    다음 경우에 발생한다.
+     *                                  - API 요청 중 통신 오류나 스레드 인터럽트가 생겨 서버가 수신하지 못한 경우
+     *                                  - API 요청을 서버가 수신했으나, 실패한 응답(코드)을 받은 경우
      * @throws IllegalArgumentException API 요청이 잘못된 경우 발생한다.
      */
     public List<PullRequest> readAllPages(GitHubRepositoryName name) {
@@ -52,6 +56,7 @@ public final class PullRequestReadService {
 
         while (true) {
             HttpResponse<String> httpResponse = read(name, ++currentPage);
+            logGitHubApiRateLimit();
 
             List<PullRequest> pullRequests = JsonPullRequestMapper.mapFromArray(httpResponse.body());
             result.addAll(pullRequests);
@@ -70,11 +75,12 @@ public final class PullRequestReadService {
     }
 
     private HttpRequest getRequest(GitHubRepositoryName name, int page) {
-        URI apiUri = URI.create(API_URI_PREFIX + name.value() + API_URI_POSTFIX + "?page=" + page);
+        URI apiUri = URI.create(API_URI_PREFIX + name.value() + API_URI_POSTFIX + "?per_page=100" + "&page=" + page);
         return HttpRequest.newBuilder()
                 .GET()
                 .uri(apiUri)
                 .header("Accept", "application/vnd.github.json")
+                .header("Authorization", "Bearer " + FileUtils.readString("src/main/resources/GITHUB_TOKEN").strip())
                 .build();
     }
 
@@ -82,6 +88,7 @@ public final class PullRequestReadService {
         HttpResponse<String> response;
 
         try {
+            log.info("request api to {}", httpRequest.uri());
             response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -131,5 +138,15 @@ public final class PullRequestReadService {
         return response.headers().firstValue("link")
                 .map(header -> !header.contains("rel=\"next\"")) // rel="next"가 없거나
                 .orElse(true); // link 헤더가 아예 없거나
+    }
+
+    private void logGitHubApiRateLimit() {
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("https://api.github.com/rate_limit"))
+                .header("Accept", "application/vnd.github.json")
+                .build();
+        HttpResponse<String> response = getResponse(request);
+        log.info("api rate limit: {}", response.body());
     }
 }

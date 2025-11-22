@@ -5,8 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileReader {
-    private FileReader() {
+public class FileUtils {
+    private FileUtils() {
     }
 
     public static byte[] getBytes(String filePath) {
@@ -15,5 +15,21 @@ public class FileReader {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String readString(String filePath) {
+        try {
+            return Files.readString(Path.of(filePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static boolean exists(String filePath) {
+        return Files.exists(Path.of(filePath));
+    }
+
+    public static void save(String content) {
+
     }
 }

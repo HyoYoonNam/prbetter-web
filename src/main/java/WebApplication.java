@@ -18,7 +18,10 @@ public class WebApplication {
         PullRequestController controller = new PullRequestController(
                 appConfig.repository(),
                 appConfig.loadService(),
-                appConfig.recommendService());
+                appConfig.recommendService(),
+                appConfig.initializer()
+        );
+
         controller.run();
 
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), SYSTEM_DEFAULT_BACKLOG);

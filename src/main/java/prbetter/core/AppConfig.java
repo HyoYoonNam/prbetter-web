@@ -2,6 +2,7 @@ package prbetter.core;
 
 import java.net.http.HttpClient;
 import prbetter.core.controller.PullRequestController;
+import prbetter.core.initializer.PullRequestInitializer;
 import prbetter.core.repository.MemoryPullRequestRepository;
 import prbetter.core.repository.PullRequestRepository;
 import prbetter.core.service.PullRequestLoadService;
@@ -16,7 +17,7 @@ public class AppConfig {
     private static final MemoryPullRequestRepository repository = new MemoryPullRequestRepository();
 
     public PullRequestController controller() {
-        return new PullRequestController(repository(), loadService(), recommendService());
+        return new PullRequestController(repository(), loadService(), recommendService(), initializer());
     }
 
     public PullRequestRecommendService recommendService() {
@@ -29,6 +30,10 @@ public class AppConfig {
 
     public PullRequestReadService readService() {
         return new PullRequestReadService(HttpClient.newHttpClient());
+    }
+
+    public PullRequestInitializer initializer() {
+        return new PullRequestInitializer(repository(), loadService());
     }
 
     public PullRequestRepository repository() {

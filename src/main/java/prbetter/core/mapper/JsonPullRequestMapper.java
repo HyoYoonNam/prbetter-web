@@ -3,14 +3,19 @@ package prbetter.core.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.cfg.CoercionAction;
 import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
 import com.fasterxml.jackson.databind.cfg.MutableCoercionConfig;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
@@ -37,6 +42,7 @@ public final class JsonPullRequestMapper {
             .withCoercionConfig(String.class, strictTypeConfig)
             .enable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES) // 객체에 있는 프로퍼티가 json에 없으면 예외 발생
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // json에 있는 프로퍼티가 객체에 없으면 무시하고 진행
+            .enable(SerializationFeature.INDENT_OUTPUT) // 직렬화시 줄바꿈, 들여쓰기 등을 적용하여 예쁘게 직렬화
             .build();
 
     private JsonPullRequestMapper() {
@@ -90,5 +96,17 @@ public final class JsonPullRequestMapper {
 
     private static boolean isJsonArray(String jsonString) {
         return jsonString.startsWith(JsonToken.START_ARRAY.asString());
+    }
+
+    public static void writeToFile(String filePath, List<PullRequest> content) {
+        try {
+            mapper.writeValue(new File(filePath), content);
+        } catch (StreamWriteException e) {
+            throw new JsonSerializeException(e);
+        } catch (DatabindException e) {
+            throw new JsonSerializeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

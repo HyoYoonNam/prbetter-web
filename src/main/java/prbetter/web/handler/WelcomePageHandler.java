@@ -6,7 +6,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.OutputStream;
 import lombok.extern.slf4j.Slf4j;
-import prbetter.util.FileReader;
+import prbetter.util.FileUtils;
 
 @Slf4j
 public class WelcomePageHandler implements HttpHandler {
@@ -18,7 +18,7 @@ public class WelcomePageHandler implements HttpHandler {
         Headers responseHeaders = exchange.getResponseHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
 
-        byte[] content = FileReader.getBytes(WELCOME_PAGE);
+        byte[] content = FileUtils.getBytes(WELCOME_PAGE);
         exchange.sendResponseHeaders(200, content.length);
 
         OutputStream writer = exchange.getResponseBody();

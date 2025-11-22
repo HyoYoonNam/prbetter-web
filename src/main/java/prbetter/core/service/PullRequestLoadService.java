@@ -3,7 +3,10 @@ package prbetter.core.service;
 import lombok.extern.slf4j.Slf4j;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
+import prbetter.core.mapper.JsonPullRequestMapper;
 import prbetter.core.repository.PullRequestRepository;
+
+import java.util.List;
 
 /**
  * 이 클래스는 특정 깃허브 리포지토리의 Pull request 목록을 읽어 와서 내부 리포지토리에 로드할 책임을 가진다.
@@ -42,6 +45,10 @@ public final class PullRequestLoadService {
         readService.readAllPages(name).stream()
                 .filter(PullRequest::isValidTitle)
                 .forEach(pr -> pullRequestRepository.save(name, pr));
-        log.info("Now, Server has {} pull requests", pullRequestRepository.sizeOf(name));
+
+        String filePath = "src/main/resources/" + name.value() + ".json";
+        log.info("write to file: path={}", filePath);
+        List<PullRequest> founds = pullRequestRepository.findAll(name);
+        JsonPullRequestMapper.writeToFile(filePath, founds);
     }
 }
