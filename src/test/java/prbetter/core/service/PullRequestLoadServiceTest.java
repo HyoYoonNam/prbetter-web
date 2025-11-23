@@ -27,7 +27,7 @@ class PullRequestLoadServiceTest {
         GitHubRepositoryName name = new GitHubRepositoryName("java-lotto-8");
 
         // when
-        lodeService.load(name);
+        lodeService.loadFromGitHub(name);
 
         // then
         verify(mockRepository, times(2)).save(eq(name), any(PullRequest.class));

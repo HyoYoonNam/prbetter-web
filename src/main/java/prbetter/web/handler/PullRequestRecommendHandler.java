@@ -1,10 +1,9 @@
 package prbetter.web.handler;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import prbetter.core.AppConfig;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
-import prbetter.core.repository.PullRequestRepository;
 import prbetter.core.service.PullRequestRecommendService;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -14,23 +13,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
+@AllArgsConstructor
 public class PullRequestRecommendHandler implements HttpHandler {
-    private static final String NEW_LINE = System.lineSeparator();
     private static final int HTTP_OK = 200;
+    private static final String NEW_LINE = System.lineSeparator();
+    private static final String EMPTY_FAVICON_LINK = "<link rel=\"icon\" href=\"data:,\">";
 
-    private final PullRequestRepository repository;
     private final PullRequestRecommendService recommendService;
-
-    public PullRequestRecommendHandler(PullRequestRepository repository,
-                                       PullRequestRecommendService recommendService) {
-        this.repository = repository;
-        this.recommendService = recommendService;
-    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -38,9 +31,9 @@ public class PullRequestRecommendHandler implements HttpHandler {
         log.info("Called from URI: {}", requestURI);
 
         String query = requestURI.getQuery();
-
         GitHubRepositoryName repositoryName = getRepositoryName(query);
-        log.info("GitHub repository name from query parameter: {}", repositoryName.value());
+
+        log.info("{}에 있는 PR 중 하나를 추천합니다.", repositoryName.value());
         PullRequest recommended = recommendService.recommendFrom(repositoryName);
         log.info("Recommended PR is {}", recommended);
 
@@ -52,7 +45,7 @@ public class PullRequestRecommendHandler implements HttpHandler {
                 .append("<html>").append(NEW_LINE)
                 .append("<head>").append(NEW_LINE)
                 .append("<title>").append("Recommended").append("</title>").append(NEW_LINE)
-                .append("<link rel=\"icon\" href=\"data:,\">").append(NEW_LINE)
+                .append(EMPTY_FAVICON_LINK).append(NEW_LINE)
                 .append("</head>").append(NEW_LINE)
                 .append("<body>").append(NEW_LINE)
                 .append("<h1>").append("다음 PR을 리뷰해 보세요!").append("</h1>").append(NEW_LINE)
@@ -61,7 +54,6 @@ public class PullRequestRecommendHandler implements HttpHandler {
                 .append("</body>").append(NEW_LINE)
                 .append("</html>").append(NEW_LINE)
                 .toString().getBytes(StandardCharsets.UTF_8);
-
         exchange.sendResponseHeaders(HTTP_OK, content.length);
 
         OutputStream writer = exchange.getResponseBody();
@@ -73,17 +65,15 @@ public class PullRequestRecommendHandler implements HttpHandler {
 
     /**
      * @param queryParameter "language=java&mission=racingcar-8" 형식
-     * @return
+     * @return java-racingcar-8과 같은 value를 가지는 GitHubRepositoryName
      */
     private static GitHubRepositoryName getRepositoryName(String queryParameter) {
         Map<String, String> paramMap = new HashMap<>();
         String[] params = queryParameter.split("&");
-        log.info("params={}", Arrays.toString(params));
         for (String param : params) {
             String[] keyValue = param.split("=");
             paramMap.put(keyValue[0], keyValue[1]);
         }
-        log.info("{}", paramMap.values());
 
         return new GitHubRepositoryName(paramMap.get("language") + "-" + paramMap.get("mission"));
     }

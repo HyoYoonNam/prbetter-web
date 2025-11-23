@@ -1,6 +1,5 @@
 package prbetter.core;
 
-import com.sun.net.httpserver.HttpHandler;
 import prbetter.core.initializer.PullRequestInitializer;
 import prbetter.core.repository.MemoryPullRequestRepository;
 import prbetter.core.repository.PullRequestRepository;
@@ -37,7 +36,7 @@ public class AppConfig {
     // handler
     private final WelcomePageHandler welcomePageHandler = new WelcomePageHandler();
     private final PullRequestRecommendHandler pullRequestRecommendHandler =
-            new PullRequestRecommendHandler(repository, recommendService);
+            new PullRequestRecommendHandler(recommendService);
     private final EmailSubscribeHandler emailSubscribeHandler = new EmailSubscribeHandler(mailSchedulerService);
 
     public PullRequestRepository repository() {

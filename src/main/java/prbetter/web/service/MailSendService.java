@@ -11,6 +11,7 @@ import java.util.Properties;
 
 @Slf4j
 public final class MailSendService {
+    private static final String PERSONAL_NAME = "PR better";
     private final String HOST = "smtp.gmail.com";
     private final String FROM = "prbetter.noreply@gmail.com";
     private final String USERNAME = FileUtils.readString("src/main/resources/MAIL_SERVICE_USERNAME").strip();
@@ -36,14 +37,15 @@ public final class MailSendService {
 
     public void send(String to, String subject, String text) {
         try {
+            log.info("[Send email to {}] Try", to);
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(FROM, "PR better"));
+            message.setFrom(new InternetAddress(FROM, PERSONAL_NAME));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(subject);
             message.setText(text);
 
             Transport.send(message);
-            log.info("Email Message to {} Sent Successfully!", to);
+            log.info("[Send email to {}] Success", to);
         } catch (MessagingException | UnsupportedEncodingException e) {
             log.info("메일 전송중 예외 발생: {}", e.getMessage());
             throw new RuntimeException(e);

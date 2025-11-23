@@ -1,5 +1,6 @@
 package prbetter.core.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
@@ -21,7 +22,9 @@ import java.util.List;
  */
 
 @Slf4j
+@AllArgsConstructor
 public final class PullRequestReadService {
+    private static final String GITHUB_AUTHORIZATION_TOKEN_PATH = "src/main/resources/GITHUB_TOKEN";
     private static final String API_URI_PREFIX = "https://api.github.com/repos/woowacourse-precourse/";
     private static final String API_URI_POSTFIX = "/pulls";
     private static final int HTTP_PAGE_NOT_FOUND = 404;
@@ -30,15 +33,6 @@ public final class PullRequestReadService {
     private static final String RESPONSE_STATUS_CODE_AND_BODY = "응답 코드=%d, 응답 내용=%s";
 
     private final HttpClient client;
-
-    /**
-     * {@code PullRequestReadService} 인스턴스를 생성한다.
-     *
-     * @param httpClient GitHub API 호출을 위한 http 통신 client
-     */
-    public PullRequestReadService(HttpClient httpClient) {
-        this.client = httpClient;
-    }
 
     /**
      * 리포지토리에 존재하는 모든 Pull request를 읽어 온다.
@@ -79,7 +73,7 @@ public final class PullRequestReadService {
                 .GET()
                 .uri(apiUri)
                 .header("Accept", "application/vnd.github.json")
-                .header("Authorization", "Bearer " + FileUtils.readString("src/main/resources/GITHUB_TOKEN").strip())
+                .header("Authorization", "Bearer " + FileUtils.readString(GITHUB_AUTHORIZATION_TOKEN_PATH).strip())
                 .build();
     }
 
@@ -87,7 +81,7 @@ public final class PullRequestReadService {
         HttpResponse<String> response;
 
         try {
-            log.info("request api to {}", httpRequest.uri());
+            log.info("GitHub API request to URI: {}", httpRequest.uri());
             response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

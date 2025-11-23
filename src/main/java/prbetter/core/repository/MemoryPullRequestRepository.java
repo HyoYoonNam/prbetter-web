@@ -1,5 +1,6 @@
 package prbetter.core.repository;
 
+import lombok.NoArgsConstructor;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 
@@ -17,6 +18,7 @@ import java.util.Map;
  * <p>이 클래스는 {@code final}이므로 상속이 불가하다.
  */
 
+@NoArgsConstructor
 public final class MemoryPullRequestRepository implements PullRequestRepository {
     private static final List<PullRequest> EMPTY_LIST = Collections.emptyList();
     private static final String REPOSITORY_NO_EXISTS = "저장되지 않은 리포지토리입니다.";

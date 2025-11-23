@@ -1,5 +1,6 @@
 package prbetter.core.service;
 
+import lombok.AllArgsConstructor;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.repository.PullRequestRepository;
@@ -12,20 +13,12 @@ import java.util.Random;
  * <p>이 클래스는 {@code final}이므로 상속이 불가하다.
  */
 
+@AllArgsConstructor
 public final class PullRequestRecommendService {
     private static final String PULL_REQUEST_NO_EXISTS = "추천할 PR이 존재하지 않습니다.";
+
     private static final Random random = new Random();
-
     private final PullRequestRepository repository;
-
-    /**
-     * {@code PullRequestRecommendService} 인스턴스를 생성한다.
-     *
-     * @param repository {@code PullRequest}를 고르기 위해 접근하는 리포지토리
-     */
-    public PullRequestRecommendService(PullRequestRepository repository) {
-        this.repository = repository;
-    }
 
     /**
      * 입력받은 리포지토리에 있는 Pull request 중 하나를 골라 추천한다.

@@ -1,10 +1,12 @@
 package prbetter.core.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.mapper.JsonPullRequestMapper;
 import prbetter.core.repository.PullRequestRepository;
+import prbetter.util.FileUtils;
 
 import java.util.List;
 
@@ -15,22 +17,10 @@ import java.util.List;
  */
 
 @Slf4j
+@AllArgsConstructor
 public final class PullRequestLoadService {
     private final PullRequestRepository pullRequestRepository;
     private final PullRequestReadService readService;
-
-    /**
-     * {@code PullRequestLoadService} 인스턴스를 생성한다.
-     *
-     * @param pullRequestRepository 읽어 온 Pull request 목록을 로드할 내부 리포지토리
-     * @param readService Pull request 목록을 읽어 올 수 있는 객체
-     */
-    public PullRequestLoadService(PullRequestRepository pullRequestRepository,
-                                  PullRequestReadService readService) {
-        this.pullRequestRepository = pullRequestRepository;
-        this.readService = readService;
-    }
-
 
     /**
      * 지정된 깃허브 리포지토리의 모든 Pull request를 조회한 후, 유효한 제목을 가진 PR만 선별하여 저장한다.
@@ -40,15 +30,23 @@ public final class PullRequestLoadService {
      * @throws IllegalArgumentException {@code @param name}에 해당하는 리포지토리가 존재하지 않는 경우 발생한다.
      * @see PullRequest#isValidTitle()
      */
-    public void load(GitHubRepositoryName name) {
-        log.info("load from {}", name.value());
+    public void loadFromGitHub(GitHubRepositoryName name) {
+        log.info("Load pull requests from GitHub reposiotry: {}", name.value());
         readService.readAllPages(name).stream()
                 .filter(PullRequest::isValidTitle)
                 .forEach(pr -> pullRequestRepository.save(name, pr));
 
         String filePath = "src/main/resources/" + name.value() + ".json";
-        log.info("write to file: path={}", filePath);
+        log.info("Write to file: path={}", filePath);
         List<PullRequest> founds = pullRequestRepository.findAll(name);
         JsonPullRequestMapper.writeToFile(filePath, founds);
+    }
+
+    public void loadFromFile(PullRequestRepository repository,
+                             GitHubRepositoryName gitHubRepositoryName,
+                             String filePath) {
+        List<PullRequest> pullRequests = JsonPullRequestMapper.mapFromArray(FileUtils.readString(filePath));
+        repository.save(gitHubRepositoryName, pullRequests);
+        log.info("Load {} pull requests on memory for {} repository", pullRequests.size(), gitHubRepositoryName);
     }
 }

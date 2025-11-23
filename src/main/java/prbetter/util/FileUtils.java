@@ -11,7 +11,7 @@ public class FileUtils {
 
     public static byte[] getBytes(String filePath) {
         try {
-            return Files.readString(Path.of("src/main/resources/" + filePath)).getBytes(StandardCharsets.UTF_8);
+            return Files.readString(Path.of(filePath)).getBytes(StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -27,9 +27,5 @@ public class FileUtils {
 
     public static boolean exists(String filePath) {
         return Files.exists(Path.of(filePath));
-    }
-
-    public static void save(String content) {
-
     }
 }

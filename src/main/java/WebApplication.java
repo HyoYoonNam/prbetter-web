@@ -3,9 +3,6 @@ import lombok.extern.slf4j.Slf4j;
 import prbetter.core.AppConfig;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.util.TargetRepositoryGenerator;
-import prbetter.web.handler.EmailSubscribeHandler;
-import prbetter.web.handler.PullRequestRecommendHandler;
-import prbetter.web.handler.WelcomePageHandler;
 import prbetter.web.service.MailSchedulerService;
 
 import java.io.IOException;
@@ -27,9 +24,8 @@ public class WebApplication {
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), SYSTEM_DEFAULT_BACKLOG);
         server.createContext("/", appConfig.welcomePageHandler());
         server.createContext("/better", appConfig.pullRequestRecommendHandler());
-
-        MailSchedulerService mailSchedulerService = appConfig.mailSchedulerService();
         server.createContext("/email-subscribe", appConfig.emailSubscribeHandler());
+        MailSchedulerService mailSchedulerService = appConfig.mailSchedulerService();
         mailSchedulerService.start();
 
         log.info("Server wakes up: port={}", PORT);
