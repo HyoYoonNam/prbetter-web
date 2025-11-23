@@ -3,12 +3,13 @@ package prbetter.core.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.repository.MemoryPullRequestRepository;
 import prbetter.core.repository.PullRequestRepository;
+
+import java.util.List;
 
 class PullRequestRecommendServiceTest {
     @Test

@@ -5,12 +5,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import prbetter.core.FileUtils;
 import prbetter.core.domain.PullRequest;
+
+import java.util.List;
 
 class JsonPullRequestMapperTest {
     @Test

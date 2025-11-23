@@ -1,8 +1,9 @@
 package prbetter.core.repository;
 
-import java.util.List;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
+
+import java.util.List;
 
 /**
  * GitHub 리포지토리별 Pull request 데이터를 관리하는 저장소 인터페이스이다.

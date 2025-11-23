@@ -1,11 +1,12 @@
 import com.sun.net.httpserver.HttpServer;
-import java.io.IOException;
-import java.net.InetSocketAddress;
 import lombok.extern.slf4j.Slf4j;
 import prbetter.core.AppConfig;
 import prbetter.core.controller.PullRequestController;
 import prbetter.web.handler.PullRequestRecommendHandler;
 import prbetter.web.handler.WelcomePageHandler;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
 
 @Slf4j
 public class WebApplication {

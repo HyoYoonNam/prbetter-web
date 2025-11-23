@@ -3,12 +3,13 @@ package prbetter.core.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
+
+import java.util.List;
 
 class MemoryPullRequestRepositoryTest {
     PullRequestRepository repository;

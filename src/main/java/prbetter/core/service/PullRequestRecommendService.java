@@ -1,9 +1,10 @@
 package prbetter.core.service;
 
-import java.util.Random;
 import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.repository.PullRequestRepository;
+
+import java.util.Random;
 
 /**
  * 이 클래스는 리포지토리에서 하나의 {@code PullRequest}를 무작위로 골라 추천하는 책임을 가진다.

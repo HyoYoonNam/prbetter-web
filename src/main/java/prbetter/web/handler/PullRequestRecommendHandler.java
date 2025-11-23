@@ -1,8 +1,15 @@
 package prbetter.web.handler;
 
+import lombok.extern.slf4j.Slf4j;
+import prbetter.core.AppConfig;
+import prbetter.core.domain.GitHubRepositoryName;
+import prbetter.core.domain.PullRequest;
+import prbetter.core.repository.PullRequestRepository;
+import prbetter.core.service.PullRequestRecommendService;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
@@ -10,12 +17,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.extern.slf4j.Slf4j;
-import prbetter.core.AppConfig;
-import prbetter.core.domain.GitHubRepositoryName;
-import prbetter.core.domain.PullRequest;
-import prbetter.core.repository.PullRequestRepository;
-import prbetter.core.service.PullRequestRecommendService;
 
 @Slf4j
 public class PullRequestRecommendHandler implements HttpHandler {

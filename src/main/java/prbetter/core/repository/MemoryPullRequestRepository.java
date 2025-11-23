@@ -1,12 +1,13 @@
 package prbetter.core.repository;
 
+import prbetter.core.domain.GitHubRepositoryName;
+import prbetter.core.domain.PullRequest;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import prbetter.core.domain.GitHubRepositoryName;
-import prbetter.core.domain.PullRequest;
 
 /**
  * {@link PullRequestRepository}의 메모리 기반 구현체이다.

@@ -1,5 +1,11 @@
 package prbetter.core.service;
 
+import lombok.extern.slf4j.Slf4j;
+import prbetter.core.domain.GitHubRepositoryName;
+import prbetter.core.domain.PullRequest;
+import prbetter.core.mapper.JsonPullRequestMapper;
+import prbetter.util.FileUtils;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -7,12 +13,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.extern.slf4j.Slf4j;
-import prbetter.core.domain.GitHubRepositoryName;
-import prbetter.core.domain.PullRequest;
-import prbetter.core.mapper.JsonPullRequestMapper;
-import prbetter.util.FileUtils;
 
 /**
  * 이 클래스는 GitHub API를 호출하여 특정 깃허브 리포지토리의 Pull request 목록을 읽어 오는 책임을 가진다.

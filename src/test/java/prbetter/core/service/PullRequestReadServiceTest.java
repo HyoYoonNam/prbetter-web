@@ -7,6 +7,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.junit.jupiter.api.Test;
+import prbetter.core.FileUtils;
+import prbetter.core.domain.GitHubRepositoryName;
+import prbetter.core.domain.PullRequest;
+
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpHeaders;
@@ -14,10 +19,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
-import prbetter.core.FileUtils;
-import prbetter.core.domain.GitHubRepositoryName;
-import prbetter.core.domain.PullRequest;
 
 class PullRequestReadServiceTest {
     private static final int HTTP_OK = 200;

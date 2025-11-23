@@ -1,6 +1,7 @@
 package prbetter.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.regex.Pattern;
 
 // TODO: 내부에 List<PullRequest>를 가지는 GitHubRepository라는 도메인을 만들어도 좋을 듯. 일단 작동에 문제없으니 최대한 미루기
