@@ -2,8 +2,10 @@ import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
 import prbetter.core.AppConfig;
 import prbetter.core.controller.PullRequestController;
+import prbetter.web.handler.EmailSubscribeHandler;
 import prbetter.web.handler.PullRequestRecommendHandler;
 import prbetter.web.handler.WelcomePageHandler;
+import prbetter.web.service.MailSchedulerService;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -28,6 +30,12 @@ public class WebApplication {
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), SYSTEM_DEFAULT_BACKLOG);
         server.createContext("/", new WelcomePageHandler());
         server.createContext("/better", new PullRequestRecommendHandler());
+
+        MailSchedulerService mailSchedulerService = new MailSchedulerService(appConfig.recommendService());
+        server.createContext("/email-subscribe", new EmailSubscribeHandler(
+                mailSchedulerService));
+        mailSchedulerService.start();
+
         log.info("Server wakes up: port={}", PORT);
         server.start();
     }

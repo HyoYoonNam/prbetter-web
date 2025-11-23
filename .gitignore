@@ -46,3 +46,7 @@ bin/
 
 ### API 호출 제한용 토큰 ###
 **/GITHUB_TOKEN
+
+### 메일 서비스 인증용 정보 ###
+**/MAIL_SERVICE_USERNAME
+**/MAIL_SERVICE_PASSWORD

@@ -30,21 +30,46 @@
 
 <h1>PR Better</h1>
 
+<h2>PR 추천받기</h2>
+언어와 미션을 선택하고, 해당 리포지토리에 존재하는 PR 중 하나를 추천받아요!<br><br>
 <form action="/better" method="get">
-    <select name="language" id="language-select">
+    <select name="language" id="language-select" required>
         <option value="">--언어를 선택해 주세요.--</option>
         <option value="java">Java</option>
         <option value="kotlin">Kotlin</option>
         <option value="javascript">Javascript</option>
     </select>
 
-    <select name="mission" id="mission-select">
+    <select name="mission" id="mission-select" required>
         <option value="">--미션을 선택해 주세요.--</option>
         <option value="calculator-8">문자열 덧셈 계산기</option>
         <option value="racingcar-8">레이싱 게임</option>
         <option value="lotto-8">로또</option>
     </select>
     <button class="button">Better!</button>
+</form>
+
+<h2>이메일 전송 서비스 등록</h2>
+이메일 서비스에 등록하시면 오전 10시에 메일로 PR을 추천받아요!<br><br>
+<form action="/email-subscribe" method="post">
+    <input type="email" name="userEmail" placeholder="받으실 이메일 주소" required>
+
+    <input type="number" name="period" placeholder="추천받을 기간" required>
+
+    <select name="language" id="email-subscribe-language-select" required>
+        <option value="">--언어를 선택해 주세요.--</option>
+        <option value="java">Java</option>
+        <option value="kotlin">Kotlin</option>
+        <option value="javascript">Javascript</option>
+    </select>
+
+    <select name="mission" id="email-subscribe-mission-select" required>
+        <option value="">--미션을 선택해 주세요.--</option>
+        <option value="calculator-8">문자열 덧셈 계산기</option>
+        <option value="racingcar-8">레이싱 게임</option>
+        <option value="lotto-8">로또</option>
+    </select>
+    <button class="button">이메일 서비스 등록하기</button>
 </form>
 
 </body>
