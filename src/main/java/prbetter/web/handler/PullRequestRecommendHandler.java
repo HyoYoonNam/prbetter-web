@@ -20,21 +20,29 @@ import java.util.Map;
 
 @Slf4j
 public class PullRequestRecommendHandler implements HttpHandler {
-    private static final PullRequestRepository repository = new AppConfig().repository();
-    private static final PullRequestRecommendService recommendService = new PullRequestRecommendService(repository);
     private static final String NEW_LINE = System.lineSeparator();
+    private static final int HTTP_OK = 200;
+
+    private final PullRequestRepository repository;
+    private final PullRequestRecommendService recommendService;
+
+    public PullRequestRecommendHandler(PullRequestRepository repository,
+                                       PullRequestRecommendService recommendService) {
+        this.repository = repository;
+        this.recommendService = recommendService;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         URI requestURI = exchange.getRequestURI();
-        log.info("Load page from URI: {}", requestURI);
+        log.info("Called from URI: {}", requestURI);
 
         String query = requestURI.getQuery();
-        log.info("query={}", query);
 
         GitHubRepositoryName repositoryName = getRepositoryName(query);
         log.info("GitHub repository name from query parameter: {}", repositoryName.value());
         PullRequest recommended = recommendService.recommendFrom(repositoryName);
+        log.info("Recommended PR is {}", recommended);
 
         Headers responseHeaders = exchange.getResponseHeaders();
         responseHeaders.add("Content-Type", "text/html; charset=utf-8");
@@ -54,9 +62,10 @@ public class PullRequestRecommendHandler implements HttpHandler {
                 .append("</html>").append(NEW_LINE)
                 .toString().getBytes(StandardCharsets.UTF_8);
 
-        exchange.sendResponseHeaders(200, content.length);
+        exchange.sendResponseHeaders(HTTP_OK, content.length);
 
         OutputStream writer = exchange.getResponseBody();
+        log.info("Write content");
         writer.write(content);
         writer.flush();
         writer.close();

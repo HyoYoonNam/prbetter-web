@@ -25,12 +25,11 @@ public class WebApplication {
         appConfig.initializer().init(repositoryNames);
 
         HttpServer server = HttpServer.create(new InetSocketAddress(PORT), SYSTEM_DEFAULT_BACKLOG);
-        server.createContext("/", new WelcomePageHandler());
-        server.createContext("/better", new PullRequestRecommendHandler());
+        server.createContext("/", appConfig.welcomePageHandler());
+        server.createContext("/better", appConfig.pullRequestRecommendHandler());
 
         MailSchedulerService mailSchedulerService = appConfig.mailSchedulerService();
-        server.createContext("/email-subscribe", new EmailSubscribeHandler(
-                mailSchedulerService));
+        server.createContext("/email-subscribe", appConfig.emailSubscribeHandler());
         mailSchedulerService.start();
 
         log.info("Server wakes up: port={}", PORT);

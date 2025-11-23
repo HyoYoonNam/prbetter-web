@@ -1,11 +1,15 @@
 package prbetter.core;
 
+import com.sun.net.httpserver.HttpHandler;
 import prbetter.core.initializer.PullRequestInitializer;
 import prbetter.core.repository.MemoryPullRequestRepository;
 import prbetter.core.repository.PullRequestRepository;
 import prbetter.core.service.PullRequestLoadService;
 import prbetter.core.service.PullRequestReadService;
 import prbetter.core.service.PullRequestRecommendService;
+import prbetter.web.handler.EmailSubscribeHandler;
+import prbetter.web.handler.PullRequestRecommendHandler;
+import prbetter.web.handler.WelcomePageHandler;
 import prbetter.web.service.MailSchedulerService;
 import prbetter.web.service.MailSendService;
 
@@ -18,7 +22,10 @@ import java.net.http.HttpClient;
  */
 
 public class AppConfig {
+    // repository
     private final MemoryPullRequestRepository repository = new MemoryPullRequestRepository();
+
+    // service and initializer
     private final PullRequestReadService readService = new PullRequestReadService(HttpClient.newHttpClient());
     private final PullRequestLoadService loadService = new PullRequestLoadService(repository, readService);
     private final PullRequestInitializer initializer = new PullRequestInitializer(repository, loadService);
@@ -26,6 +33,12 @@ public class AppConfig {
     private final MailSendService mailSendService = new MailSendService();
     private final MailSchedulerService mailSchedulerService =
             new MailSchedulerService(recommendService, mailSendService);
+
+    // handler
+    private final WelcomePageHandler welcomePageHandler = new WelcomePageHandler();
+    private final PullRequestRecommendHandler pullRequestRecommendHandler =
+            new PullRequestRecommendHandler(repository, recommendService);
+    private final EmailSubscribeHandler emailSubscribeHandler = new EmailSubscribeHandler(mailSchedulerService);
 
     public PullRequestRepository repository() {
         return repository;
@@ -53,5 +66,17 @@ public class AppConfig {
 
     public MailSchedulerService mailSchedulerService() {
         return mailSchedulerService;
+    }
+
+    public WelcomePageHandler welcomePageHandler() {
+        return welcomePageHandler;
+    }
+
+    public PullRequestRecommendHandler pullRequestRecommendHandler() {
+        return pullRequestRecommendHandler;
+    }
+
+    public EmailSubscribeHandler emailSubscribeHandler() {
+        return emailSubscribeHandler;
     }
 }
