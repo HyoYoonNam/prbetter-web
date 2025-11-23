@@ -36,7 +36,7 @@ public final class PullRequestLoadService {
                 .filter(PullRequest::isValidTitle)
                 .forEach(pr -> pullRequestRepository.save(name, pr));
 
-        String filePath = "src/main/resources/" + name.value() + ".json";
+        String filePath = "src/main/resources/pullrequest/" + name.value() + ".json";
         log.info("Write to file: path={}", filePath);
         List<PullRequest> founds = pullRequestRepository.findAll(name);
         JsonPullRequestMapper.writeToFile(filePath, founds);

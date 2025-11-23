@@ -18,7 +18,7 @@ public final class PullRequestInitializer {
     public void init(List<GitHubRepositoryName> repositoryNames) {
         log.info("리포지토리의 pull request 목록 초기화");
         for (GitHubRepositoryName gitHubRepositoryName : repositoryNames) {
-            String filePath = "src/main/resources/" + gitHubRepositoryName.value() + ".json";
+            String filePath = "src/main/resources/pullrequest/" + gitHubRepositoryName.value() + ".json";
 
             // 파일로 이미 관리되고 있으면 파일에서 메모리 리포지토리로 불러 옴
             if (FileUtils.exists(filePath)) {
