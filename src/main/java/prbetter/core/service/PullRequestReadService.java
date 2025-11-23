@@ -145,6 +145,7 @@ public final class PullRequestReadService {
                 .GET()
                 .uri(URI.create("https://api.github.com/rate_limit"))
                 .header("Accept", "application/vnd.github.json")
+                .header("Authorization", "Bearer " + FileUtils.readString("src/main/resources/GITHUB_TOKEN").strip())
                 .build();
         HttpResponse<String> response = getResponse(request);
         log.info("api rate limit: {}", response.body());
