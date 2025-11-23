@@ -56,7 +56,6 @@ public final class PullRequestReadService {
 
         while (true) {
             HttpResponse<String> httpResponse = read(name, ++currentPage);
-            logGitHubApiRateLimit();
 
             List<PullRequest> pullRequests = JsonPullRequestMapper.mapFromArray(httpResponse.body());
             result.addAll(pullRequests);
@@ -75,7 +74,7 @@ public final class PullRequestReadService {
     }
 
     private HttpRequest getRequest(GitHubRepositoryName name, int page) {
-        URI apiUri = URI.create(API_URI_PREFIX + name.value() + API_URI_POSTFIX + "?per_page=100" + "&page=" + page);
+        URI apiUri = URI.create(API_URI_PREFIX + name.value() + API_URI_POSTFIX + "?per_page=30" + "&page=" + page);
         return HttpRequest.newBuilder()
                 .GET()
                 .uri(apiUri)
@@ -138,16 +137,5 @@ public final class PullRequestReadService {
         return response.headers().firstValue("link")
                 .map(header -> !header.contains("rel=\"next\"")) // rel="next"가 없거나
                 .orElse(true); // link 헤더가 아예 없거나
-    }
-
-    private void logGitHubApiRateLimit() {
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .uri(URI.create("https://api.github.com/rate_limit"))
-                .header("Accept", "application/vnd.github.json")
-                .header("Authorization", "Bearer " + FileUtils.readString("src/main/resources/GITHUB_TOKEN").strip())
-                .build();
-        HttpResponse<String> response = getResponse(request);
-        log.info("api rate limit: {}", response.body());
     }
 }
