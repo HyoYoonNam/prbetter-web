@@ -24,7 +24,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 public final class PullRequestReadService {
-    private static final String GITHUB_AUTHORIZATION_TOKEN_PATH = "src/main/resources/secret/GITHUB_TOKEN";
+    private static final String GITHUB_AUTHORIZATION_TOKEN_PATH = "secret/GITHUB_TOKEN";
     private static final String API_URI_PREFIX = "https://api.github.com/repos/woowacourse-precourse/";
     private static final String API_URI_POSTFIX = "/pulls";
     private static final int HTTP_PAGE_NOT_FOUND = 404;

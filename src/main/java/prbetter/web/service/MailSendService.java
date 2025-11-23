@@ -14,8 +14,8 @@ public final class MailSendService {
     private static final String PERSONAL_NAME = "PR better";
     private final String HOST = "smtp.gmail.com";
     private final String FROM = "prbetter.noreply@gmail.com";
-    private final String USERNAME = FileUtils.readString("src/main/resources/secret/MAIL_SERVICE_USERNAME").strip();
-    private final String PASSWORD = FileUtils.readString("src/main/resources/secret/MAIL_SERVICE_PASSWORD").strip();
+    private final String USERNAME = FileUtils.readString("secret/MAIL_SERVICE_USERNAME").strip();
+    private final String PASSWORD = FileUtils.readString("secret/MAIL_SERVICE_PASSWORD").strip();
 
     private final Session session;
 

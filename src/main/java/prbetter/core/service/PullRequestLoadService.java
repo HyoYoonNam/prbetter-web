@@ -8,6 +8,7 @@ import prbetter.core.mapper.JsonPullRequestMapper;
 import prbetter.core.repository.PullRequestRepository;
 import prbetter.util.FileUtils;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -36,7 +37,12 @@ public final class PullRequestLoadService {
                 .filter(PullRequest::isValidTitle)
                 .forEach(pr -> pullRequestRepository.save(name, pr));
 
-        String filePath = "src/main/resources/pullrequest/" + name.value() + ".json";
+//        String filePath = "src/main/resources/pullrequest/" + name.value() + ".json";
+        File directory = new File("./pullrequest/");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        String filePath = "./pullrequest/" + name.value() + ".json";
         log.info("Write to file: path={}", filePath);
         List<PullRequest> founds = pullRequestRepository.findAll(name);
         JsonPullRequestMapper.writeToFile(filePath, founds);
@@ -45,7 +51,7 @@ public final class PullRequestLoadService {
     public void loadFromFile(PullRequestRepository repository,
                              GitHubRepositoryName gitHubRepositoryName,
                              String filePath) {
-        List<PullRequest> pullRequests = JsonPullRequestMapper.mapFromArray(FileUtils.readString(filePath));
+        List<PullRequest> pullRequests = JsonPullRequestMapper.mapFromArray(FileUtils.readLocalFileToString(filePath));
         repository.save(gitHubRepositoryName, pullRequests);
         log.info("Load {} pull requests on memory for {} repository", pullRequests.size(), gitHubRepositoryName);
     }

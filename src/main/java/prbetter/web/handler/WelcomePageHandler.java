@@ -13,7 +13,8 @@ import java.io.OutputStream;
 @Slf4j
 @NoArgsConstructor
 public class WelcomePageHandler implements HttpHandler {
-    private static final String WELCOME_PAGE = "src/main/resources/index.html";
+//    private static final String WELCOME_PAGE = "src/main/resources/index.html";
+    private static final String WELCOME_PAGE = "index.html";
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

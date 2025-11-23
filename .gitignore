@@ -44,5 +44,8 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+### 운영 데이터 저장 디렉터리 ###
+/pullrequest/
+
 ### 보안 정보 ###
 src/main/resources/secret/

@@ -1,3 +1,5 @@
+package prbetter;
+
 import com.sun.net.httpserver.HttpServer;
 import lombok.extern.slf4j.Slf4j;
 import prbetter.core.AppConfig;
