@@ -15,9 +15,12 @@ public class MailSchedulerService {
     private static final List<ScheduleInformation> scheduledUsers = new ArrayList<>();
 
     private final PullRequestRecommendService recommendService;
+    private final MailSendService mailSendService;
 
-    public MailSchedulerService(PullRequestRecommendService recommendService) {
+    public MailSchedulerService(PullRequestRecommendService recommendService,
+                                MailSendService mailSendService) {
         this.recommendService = recommendService;
+        this.mailSendService = mailSendService;
     }
 
     public void add(String userEmail, String language, String mission, int period) {
@@ -33,7 +36,7 @@ public class MailSchedulerService {
                 log.info("스케쥴 시작");
                 for (ScheduleInformation scheduledUser : List.copyOf(scheduledUsers)) {
                     PullRequest recommended = recommendService.recommendFrom(scheduledUser.getGitHubRepositoryName());
-                    MailSendService.send(scheduledUser.getUserEmail(),
+                    mailSendService.send(scheduledUser.getUserEmail(),
                             "오늘의 추천 PR이 도착했어요!",
                             "제목: " + recommended.title() + System.lineSeparator() +
                                     "링크: " + recommended.htmlUrl());
