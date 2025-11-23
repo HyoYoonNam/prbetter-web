@@ -29,7 +29,7 @@ public final class PullRequestInitializer {
                 log.info("{}에 대한 파일이 존재함. 파일 읽기.", repositoryName);
                 List<PullRequest> pullRequests = JsonPullRequestMapper.mapFromArray(FileUtils.readString(fileName));
                 repository.save(repositoryName, pullRequests);
-                return;
+                continue;
             }
 
             // 파일로 관리되고 있지 않으면 API를 호출해서 로드
