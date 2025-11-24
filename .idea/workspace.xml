@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="8" />
+    <option name="CUSTOM_SCOPE_NAME" value="Project Production Files" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f9b68cb4-2922-43ff-90c1-bba7ac86d824" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/htmlReport" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Exception" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/temurin-21.0.8/Contents/Home/lib/src.zip!/java.base/java/io/InputStream.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/temurin-21.0.8/Contents/Home/lib/src.zip!/java.base/java/lang/IllegalArgumentException.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$USER_HOME$/Library/Java/JavaVirtualMachines/temurin-21.0.8/Contents/Home/lib/src.zip!/java.base/java/util/Timer.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="35kI8yGP0W1nXlfDmZNz1iFlW8E" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.WebApplication.executor": "Coverage",
+    "Gradle.Build prbetter-web.executor": "Run",
+    "Gradle.Download Sources.executor": "Run",
+    "Gradle.Tests in 'prbetter-web.test'.executor": "Run",
+    "Gradle.Tests in 'prbetter.core'.executor": "Run",
+    "Gradle.prbetter-web [:Main.main()].executor": "Run",
+    "Gradle.prbetter-web [:WebApplication.main()].executor": "Run",
+    "Gradle.prbetter-web [:prbetter.Main.main()].executor": "Run",
+    "Gradle.prbetter-web [:prbetter.WebApplication.main()].executor": "Run",
+    "Gradle.prbetter-web [:prbetter.util.TargetRepositoryGenerator.main()].executor": "Run",
+    "Gradle.prbetter-web [:prbetter.web.service.MailService.main()].executor": "Run",
+    "JUnit.All in prbetter-web.test.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "gh-pages",
+    "javascript.nodejs.core.library.configured.version": "22.16.0",
+    "javascript.nodejs.core.library.typings.version": "22.15.32",
+    "last_opened_file_path": "/Users/rudevico/woowatechcourse/prbetter-web/assets",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.4954023",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+      <recent name="$PROJECT_DIR$/src/test/java" />
+      <recent name="$PROJECT_DIR$/src/main/java/prbetter/core" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/assets" />
+      <recent name="$PROJECT_DIR$/src/main/resources/pullrequests" />
+      <recent name="$PROJECT_DIR$/src/main/resources/secret" />
+      <recent name="$PROJECT_DIR$/.idea/codeStyles" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="prbetter.util" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="prbetter.core.mapper" />
+      <recent name="prbetter.core" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.All in prbetter-web.test">
+    <configuration name="MailSendService" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="prbetter.web.service.MailSendService" />
+      <module name="prbetter-web.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="prbetter.web.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="prbetter-web.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="prbetter.WebApplication" />
+      <module name="prbetter-web.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tests in 'prbetter-web.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="All in prbetter-web.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="prbetter-web.test" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.All in prbetter-web.test" />
+        <item itemvalue="Gradle.Tests in 'prbetter-web.test'" />
+        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.WebApplication" />
+        <item itemvalue="Application.MailSendService" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.28293.39" />
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-IU-251.28293.39" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9b68cb4-2922-43ff-90c1-bba7ac86d824" name="Changes" comment="" />
+      <created>1763647488195</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1763647488195</updated>
+      <workItem from="1763647489376" duration="2510000" />
+      <workItem from="1763702815343" duration="4345000" />
+      <workItem from="1763707755690" duration="10859000" />
+      <workItem from="1763815582720" duration="8444000" />
+      <workItem from="1763875276143" duration="4540000" />
+      <workItem from="1763880041310" duration="32066000" />
+      <workItem from="1763958826901" duration="13976000" />
+      <workItem from="1763978442367" duration="2422000" />
+      <workItem from="1763983534549" duration="5060000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/prbetter_web$WebApplication.ic" NAME="WebApplication Coverage Results" MODIFIED="1763976045279" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>

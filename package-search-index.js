@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"prbetter"},{"l":"prbetter.core"},{"l":"prbetter.core.domain"},{"l":"prbetter.core.initializer"},{"l":"prbetter.core.mapper"},{"l":"prbetter.core.repository"},{"l":"prbetter.core.service"},{"l":"prbetter.util"},{"l":"prbetter.web.handler"},{"l":"prbetter.web.service"}];updateSearchResults();
