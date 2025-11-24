@@ -10,6 +10,12 @@ import prbetter.core.service.PullRequestRecommendService;
 import java.time.ZoneId;
 import java.util.*;
 
+/**
+ * 이 클래스는 사용자에게 정기적으로 추천 PR을 메일로 발송하는 책임을 가진다.
+ *
+ * <p>매일 오전 10시(KST)에 스케쥴러에 등록된 사용자들을 대상으로 메일을 발송한다.
+ */
+
 @Slf4j
 @AllArgsConstructor
 public class MailSchedulerService {
@@ -20,11 +26,30 @@ public class MailSchedulerService {
     private final PullRequestRecommendService recommendService;
     private final MailSendService mailSendService;
 
+    /**
+     * 스케쥴러에 사용자를 등록한다.
+     *
+     * @param userEmail 사용자가 메일을 수신할 주소
+     * @param language  추천받을 PR의 언어; 예. java
+     * @param mission   추천받을 PR의 미션명; 예. racingcar
+     *                  {@code @param language}와 결합하여 java-racingcar-8과 같은 깃허브 리포지토리 이름이 된다.
+     * @param period    메일로 발송받을 기간(단위: 일)
+     */
     public void add(String userEmail, String language, String mission, int period) {
         scheduledUsers.add(new ScheduleInformation(userEmail, language, mission, period));
         log.info("[스케쥴러 등록 완료] {}, 현재 등록 수={}", scheduledUsers.getLast(), scheduledUsers.size());
     }
 
+    /**
+     * 스케쥴러를 시작한다.
+     *
+     * <p>애플리케이션 로딩 시각을 기준으로 최초 실행 시점을 계산하여 정기 작업을 예약한다.
+     * 정기 작업의 시각은 매일 오전 10시이며, 최초 실행 시점은 애플리케이션 로딩 시각이 오전 10시 이전이라면 당일 오전 10시, 아니면 다음 날 오전 10시다.
+     *
+     * <p>매 정기작업마다 사용자의 남은 {@code period}를 계산하여 모두 소모되면 스케쥴에서 제거한다.
+     *
+     * @see MailSchedulerService#add(String, String, String, int)
+     */
     public void start() {
         log.info("Scheduler start");
         Timer timer = new Timer();

@@ -10,10 +10,15 @@ import prbetter.util.FileUtils;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * 이 클래스는 웰컴 페이지 요청(/)을 처리하는 핸들러다.
+ *
+ * <p>서버 자원 중 웰컴 페이지를 찾아 응답한다.
+ */
+
 @Slf4j
 @NoArgsConstructor
 public class WelcomePageHandler implements HttpHandler {
-//    private static final String WELCOME_PAGE = "src/main/resources/index.html";
     private static final String WELCOME_PAGE = "index.html";
 
     @Override

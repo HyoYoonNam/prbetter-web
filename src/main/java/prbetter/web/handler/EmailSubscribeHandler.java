@@ -15,6 +15,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 이 클래스는 이메일 정기 발송 서비스 등록 요청(/email-subscribe)을 처리하는 핸들러다.
+ *
+ * <p> 사용자가 이메일, 추천받을 PR의 언어와 미션, 서비스 등록 기간을 포함한 POST 요청을 보내면
+ * 서버 스케쥴러에 해당 사용자를 등록하고, 등록 완료 메시지가 담긴 HTML 페이지를 응답한다.
+ */
+
 @Slf4j
 @AllArgsConstructor
 public class EmailSubscribeHandler implements HttpHandler {

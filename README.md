@@ -24,6 +24,7 @@
 [![WoowaCourse](https://img.shields.io/badge/Project_For-WoowaCourse_Pre--course-00C854?style=flat-square&logo=woowabrothers&logoColor=white)](https://woowacourse.github.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 ![Last Commit](https://img.shields.io/github/last-commit/hyoyoonnam/prbetter-web?style=flat-square&color=important)
+[![Javadoc](https://img.shields.io/badge/Javadoc-reference-green?style=flat-square)](https://hyoyoonnam.github.io/prbetter-web/)
 
 ---
 **prbetter-web**은 [prbetter-console](https://github.com/HyoYoonNam/prbetter-console)의 기능을 기반으로 제작한 경량 웹서비스입니다.

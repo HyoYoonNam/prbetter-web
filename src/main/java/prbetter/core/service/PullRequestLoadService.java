@@ -48,6 +48,13 @@ public final class PullRequestLoadService {
         JsonPullRequestMapper.writeToFile(filePath, founds);
     }
 
+    /**
+     * 캐싱된 파일에 존재하는 pull request 목록을 서버에 로드한다.
+     *
+     * @param repository            pull request 목록을 로드할 내부 저장소
+     * @param gitHubRepositoryName  내부 저장소의 key
+     * @param filePath              캐싱된 파일의 경로
+     */
     public void loadFromFile(PullRequestRepository repository,
                              GitHubRepositoryName gitHubRepositoryName,
                              String filePath) {

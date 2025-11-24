@@ -9,6 +9,10 @@ import prbetter.util.FileUtils;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+/**
+ * 이 클래스는 외부로 이메일을 전송하는 책임을 가진다.
+ */
+
 @Slf4j
 public final class MailSendService {
     private static final String PERSONAL_NAME = "PR better";
@@ -19,6 +23,7 @@ public final class MailSendService {
 
     private final Session session;
 
+    /** 메일 전송에 중복적으로 사용되는 세션을 초기화한다. */
     public MailSendService() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -35,6 +40,16 @@ public final class MailSendService {
                 });
     }
 
+    /**
+     * 입력받은 수신자에게 이메일을 전송한다.
+     *
+     * @param to        수신자의 이메일 주소
+     * @param subject   메일 제목
+     * @param text      메일 본문
+     * @throws MailServiceException 메일 전송 중 인코딩이나 메시지 관련 에러가 생겨 발송에 실패하면 발생한다.
+     * @see MessagingException
+     * @see UnsupportedEncodingException
+     */
     public void send(String to, String subject, String text) {
         try {
             log.info("[Send email to {}] Try", to);
@@ -48,7 +63,7 @@ public final class MailSendService {
             log.info("[Send email to {}] Success", to);
         } catch (MessagingException | UnsupportedEncodingException e) {
             log.info("메일 전송중 예외 발생: {}", e.getMessage());
-            throw new RuntimeException(e);
+            throw new MailServiceException("메일 전송중 예외가 발생했습니다", e);
         }
     }
 }

@@ -9,12 +9,23 @@ import prbetter.util.FileUtils;
 
 import java.util.List;
 
+/**
+ * 이 클래스는 애플리케이션 구동 시점에 Pull request 목록 데이터를 초기화하는 책임을 가진다.
+ */
+
 @Slf4j
 @AllArgsConstructor
 public final class PullRequestInitializer {
     private final PullRequestRepository repository;
     private final PullRequestLoadService loadService;
 
+    /**
+     * 입력받은 깃허브 리포지토리의 pull request 목록이 서버에 파일로 캐싱되어 있으면 그걸 사용하고, 없으면 API 요청을 수행하여 초기화한다.
+     *
+     * <p>API 요청을 해서 초기화 하는 경우, 이후에 재사용할 수 있도록 서버에 파일로 캐싱한다.
+     *
+     * @param repositoryNames Pull request 목록을 가져올 깃허브 리포지토리들의 이름
+     */
     public void init(List<GitHubRepositoryName> repositoryNames) {
         log.info("리포지토리의 pull request 목록 초기화");
         for (GitHubRepositoryName gitHubRepositoryName : repositoryNames) {

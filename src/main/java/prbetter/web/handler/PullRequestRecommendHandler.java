@@ -16,6 +16,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 이 클래스는 PR 추천 요청(/better)을 처리하는 핸들러다.
+ *
+ * <p> 추천받을 PR의 언어와 미션을 포함한 GET 요청을 보내면
+ * 서버 내부 저장소에서 PR을 랜덤으로 하나 가져와 제목과 링크를 포함한 HTML을 응답한다.
+ */
+
 @Slf4j
 @AllArgsConstructor
 public class PullRequestRecommendHandler implements HttpHandler {
