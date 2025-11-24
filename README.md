@@ -18,7 +18,7 @@
 [![JUnit5](https://img.shields.io/badge/Test-JUnit5-25A162?style=flat-square&logo=junit5&logoColor=white)](https://junit.org/junit5/)
 [![Mockito](https://img.shields.io/badge/Test-Mockito-81B518?style=flat-square&logo=mockito&logoColor=white)](https://site.mockito.org/)
 [![AssertJ](https://img.shields.io/badge/Test-AssertJ-2C2255?style=flat-square)](https://assertj.github.io/doc/)
-[![Coverage](https://img.shields.io/badge/Coverage-80%25-green?style=flat-square)](https://htmlpreview.github.io/?https://github.com/HyoYoonNam/prbetter-web/blob/main/htmlReport/index.html)
+[![Coverage](https://img.shields.io/badge/Coverage-37%25-red?style=flat-square)](https://htmlpreview.github.io/?https://github.com/HyoYoonNam/prbetter-web/blob/main/htmlReport/index.html)
 
 ### Meta
 [![WoowaCourse](https://img.shields.io/badge/Project_For-WoowaCourse_Pre--course-00C854?style=flat-square&logo=woowabrothers&logoColor=white)](https://woowacourse.github.io/)
@@ -42,6 +42,7 @@
   - [메일 정기 발송 서비스](#메일-정기-발송-서비스)
 - [프로덕션 코드 구조](#-프로덕션-코드-구조)
 - [클래스 다이어그램](#-클래스-다이어그램)
+- [테스트 결과](#-테스트-결과)
 - [더 많은 정보](#-더-많은-정보)
 
 ## 💡 개발 배경
@@ -212,6 +213,21 @@ src/main/java/prbetter/
 
 ## 🔀 클래스 다이어그램
 ![class-diagram](assets/class-diagram.png)
+
+## ✅ 테스트 결과
+> [!NOTE]  
+> 콘솔 프로그램을 기반으로 웹 서비스로 구현하면서 새롭게 추가된 기능들에 대해서는 추가적인 테스트 코드를 작성하지 못했기 때문에 커버리지가 저조합니다.
+
+<br>
+
+```console
+SUCCESS: Executed 23 tests in 1.8s
+```
+
+![test-passed-result](assets/test-passed-result.png)
+
+전체 테스트 커버리지는 [여기](https://htmlpreview.github.io/?https://github.com/HyoYoonNam/prbetter-web/blob/main/htmlReport/index.html)에서 확인하실 수 있습니다.
+![test-coverage](assets/test-coverage.png)
 
 ## 💬 더 많은 정보
 prbetter를 개발하면서의 설계 과정, 문제와 해결 등은 [노션](https://rudevico.notion.site/2a03a35cb1a180e3a612e6084985a478?source=copy_link)에서 확인할 수 있습니다.

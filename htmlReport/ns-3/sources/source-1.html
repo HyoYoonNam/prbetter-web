@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > GitHubRepositoryName</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">prbetter.core.domain</a>
+</div>
+
+<h1>Coverage Summary for Class: GitHubRepositoryName (prbetter.core.domain)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GitHubRepositoryName</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package prbetter.core.domain;
+&nbsp;
+&nbsp;import java.util.regex.Pattern;
+&nbsp;
+&nbsp;/**
+&nbsp; * 이 클래스는 GitHub 리포지토리의 이름을 가지는 Value object이다.
+&nbsp; *
+&nbsp; * &lt;p&gt; 이 클래스는 {@code record}로 선언되었으므로 불변임을 보장한다.
+&nbsp; *
+&nbsp; * @param value GitHub 리포지토리 이름
+&nbsp; */
+&nbsp;
+<b class="fc">&nbsp;public record GitHubRepositoryName(String value) {</b>
+&nbsp;    /*
+&nbsp;     * GitHub에서 Create a new repository를 선택하고, Repository name에 &#39;ㄱ&#39; &#39;@&#39; 등의 규칙을 벗어나는 문자를 입력하면 다음 메시지가 보인다.
+&nbsp;     * The repository name can only ASCII letters, digits, and the characters ., -, and _.
+&nbsp;     * 이를 위반하는 이름의 리포지토리는 존재할 수 없으므로 (api 호출 전에) 생성되지 못하게 예외를 발생시킬 수 있도록 한다.
+&nbsp;     */
+<b class="fc">&nbsp;    private static final Pattern NAMING_RULE_PATTERN = Pattern.compile(&quot;[A-Za-z0-9.\\-_]+&quot;);</b>
+&nbsp;
+&nbsp;    /** @throws IllegalArgumentException GitHub 리포지토리 명명 규칙을 위반하면 발생한다. */
+<b class="fc">&nbsp;    public GitHubRepositoryName {</b>
+<b class="pc">&nbsp;        if (!NAMING_RULE_PATTERN.matcher(value).matches()) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(</b>
+&nbsp;                    value + &quot;: 깃허브 리포지토리 이름은 ASCII 문자, 숫자, &#39;.&#39;, &#39;-&#39;, &#39;_&#39; 중 하나여야 합니다.&quot;);
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-24 18:20</div>
+</div>
+</body>
+</html>

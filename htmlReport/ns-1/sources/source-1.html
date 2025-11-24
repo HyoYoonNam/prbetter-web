@@ -1,0 +1,140 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > WebApplication</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">prbetter</a>
+</div>
+
+<h1>Coverage Summary for Class: WebApplication (prbetter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WebApplication</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package prbetter;
+&nbsp;
+&nbsp;import com.sun.net.httpserver.HttpServer;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import prbetter.core.AppConfig;
+&nbsp;import prbetter.core.domain.GitHubRepositoryName;
+&nbsp;import prbetter.util.TargetRepositoryGenerator;
+&nbsp;import prbetter.web.service.MailSchedulerService;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.InetSocketAddress;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+<b class="nc">&nbsp;public class WebApplication {</b>
+&nbsp;    private static final int PORT = 8080;
+&nbsp;    private static final int SYSTEM_DEFAULT_BACKLOG = 0;
+&nbsp;
+&nbsp;    public static void main(String[] args) throws IOException {
+<b class="fc">&nbsp;        log.info(&quot;Application start&quot;);</b>
+<b class="fc">&nbsp;        AppConfig appConfig = new AppConfig();</b>
+&nbsp;
+<b class="fc">&nbsp;        List&lt;GitHubRepositoryName&gt; repositoryNames = TargetRepositoryGenerator.generate(8);</b>
+<b class="fc">&nbsp;        appConfig.initializer().init(repositoryNames);</b>
+&nbsp;
+<b class="fc">&nbsp;        HttpServer server = HttpServer.create(new InetSocketAddress(PORT), SYSTEM_DEFAULT_BACKLOG);</b>
+<b class="fc">&nbsp;        server.createContext(&quot;/&quot;, appConfig.welcomePageHandler());</b>
+<b class="fc">&nbsp;        server.createContext(&quot;/better&quot;, appConfig.pullRequestRecommendHandler());</b>
+<b class="fc">&nbsp;        server.createContext(&quot;/email-subscribe&quot;, appConfig.emailSubscribeHandler());</b>
+<b class="fc">&nbsp;        MailSchedulerService mailSchedulerService = appConfig.mailSchedulerService();</b>
+<b class="fc">&nbsp;        mailSchedulerService.start();</b>
+&nbsp;
+<b class="fc">&nbsp;        log.info(&quot;Server wakes up: port={}&quot;, PORT);</b>
+<b class="fc">&nbsp;        server.start();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-24 18:20</div>
+</div>
+</body>
+</html>

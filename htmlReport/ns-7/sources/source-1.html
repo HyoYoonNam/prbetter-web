@@ -1,0 +1,174 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PullRequestLoadService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">prbetter.core.service</a>
+</div>
+
+<h1>Coverage Summary for Class: PullRequestLoadService (prbetter.core.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PullRequestLoadService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    26.7%
+  </span>
+  <span class="absValue">
+    (4/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package prbetter.core.service;
+&nbsp;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import prbetter.core.domain.GitHubRepositoryName;
+&nbsp;import prbetter.core.domain.PullRequest;
+&nbsp;import prbetter.core.mapper.JsonPullRequestMapper;
+&nbsp;import prbetter.core.repository.PullRequestRepository;
+&nbsp;import prbetter.util.FileUtils;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * 이 클래스는 특정 깃허브 리포지토리의 Pull request 목록을 읽어 와서 내부 리포지토리에 로드할 책임을 가진다.
+&nbsp; *
+&nbsp; * &lt;p&gt;이 클래스는 {@code final}이므로 상속이 불가하다.
+&nbsp; */
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@AllArgsConstructor
+&nbsp;public final class PullRequestLoadService {
+&nbsp;    private final PullRequestRepository pullRequestRepository;
+&nbsp;    private final PullRequestReadService readService;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 지정된 깃허브 리포지토리의 모든 Pull request를 조회한 후, 유효한 제목을 가진 PR만 선별하여 저장한다.
+&nbsp;     *
+&nbsp;     * @param name Pull request를 로드할 대상 깃허브 리포지토리의 이름
+&nbsp;     * @throws IllegalStateException API 요청 중 오류가 생긴 경우 발생한다.
+&nbsp;     * @throws IllegalArgumentException {@code @param name}에 해당하는 리포지토리가 존재하지 않는 경우 발생한다.
+&nbsp;     * @see PullRequest#isValidTitle()
+&nbsp;     */
+&nbsp;    public void loadFromGitHub(GitHubRepositoryName name) {
+<b class="nc">&nbsp;        log.info(&quot;Load pull requests from GitHub reposiotry: {}&quot;, name.value());</b>
+<b class="nc">&nbsp;        readService.readAllPages(name).stream()</b>
+<b class="nc">&nbsp;                .filter(PullRequest::isValidTitle)</b>
+<b class="nc">&nbsp;                .forEach(pr -&gt; pullRequestRepository.save(name, pr));</b>
+&nbsp;
+&nbsp;//        String filePath = &quot;src/main/resources/pullrequest/&quot; + name.value() + &quot;.json&quot;;
+<b class="nc">&nbsp;        File directory = new File(&quot;./pullrequest/&quot;);</b>
+<b class="nc">&nbsp;        if (!directory.exists()) {</b>
+<b class="nc">&nbsp;            directory.mkdir();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        String filePath = &quot;./pullrequest/&quot; + name.value() + &quot;.json&quot;;</b>
+<b class="nc">&nbsp;        log.info(&quot;Write to file: path={}&quot;, filePath);</b>
+<b class="nc">&nbsp;        List&lt;PullRequest&gt; founds = pullRequestRepository.findAll(name);</b>
+<b class="nc">&nbsp;        JsonPullRequestMapper.writeToFile(filePath, founds);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void loadFromFile(PullRequestRepository repository,
+&nbsp;                             GitHubRepositoryName gitHubRepositoryName,
+&nbsp;                             String filePath) {
+<b class="fc">&nbsp;        List&lt;PullRequest&gt; pullRequests = JsonPullRequestMapper.mapFromArray(FileUtils.readLocalFileToString(filePath));</b>
+<b class="fc">&nbsp;        repository.save(gitHubRepositoryName, pullRequests);</b>
+<b class="fc">&nbsp;        log.info(&quot;Load {} pull requests on memory for {} repository&quot;, pullRequests.size(), gitHubRepositoryName);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-24 18:20</div>
+</div>
+</body>
+</html>

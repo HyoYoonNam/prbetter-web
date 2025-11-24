@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PullRequestRecommendService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">prbetter.core.service</a>
+</div>
+
+<h1>Coverage Summary for Class: PullRequestRecommendService (prbetter.core.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PullRequestRecommendService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16.7%
+  </span>
+  <span class="absValue">
+    (1/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package prbetter.core.service;
+&nbsp;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import prbetter.core.domain.GitHubRepositoryName;
+&nbsp;import prbetter.core.domain.PullRequest;
+&nbsp;import prbetter.core.repository.PullRequestRepository;
+&nbsp;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;/**
+&nbsp; * 이 클래스는 리포지토리에서 하나의 {@code PullRequest}를 무작위로 골라 추천하는 책임을 가진다.
+&nbsp; *
+&nbsp; * &lt;p&gt;이 클래스는 {@code final}이므로 상속이 불가하다.
+&nbsp; */
+&nbsp;
+&nbsp;@AllArgsConstructor
+&nbsp;public final class PullRequestRecommendService {
+&nbsp;    private static final String PULL_REQUEST_NO_EXISTS = &quot;추천할 PR이 존재하지 않습니다.&quot;;
+&nbsp;
+<b class="fc">&nbsp;    private static final Random random = new Random();</b>
+&nbsp;    private final PullRequestRepository repository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 입력받은 리포지토리에 있는 Pull request 중 하나를 골라 추천한다.
+&nbsp;     *
+&nbsp;     * @param name 추천할 Pull request를 고르기 위한 리포지토리 이름
+&nbsp;     * @return 추천할 Pull request
+&nbsp;     * @throws IllegalArgumentException 리포지토리에 Pull request가 1개도 존재하지 않으면 발생한다.
+&nbsp;     */
+&nbsp;    public PullRequest recommendFrom(GitHubRepositoryName name) {
+<b class="nc">&nbsp;        int size = repository.sizeOf(name);</b>
+<b class="nc">&nbsp;        if (size == 0) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(PULL_REQUEST_NO_EXISTS);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        int randomIndex = random.nextInt(size);</b>
+&nbsp;
+<b class="nc">&nbsp;        return repository.findByIndex(name, randomIndex);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-24 18:20</div>
+</div>
+</body>
+</html>

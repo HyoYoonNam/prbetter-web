@@ -1,0 +1,229 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > JsonPullRequestMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">prbetter.core.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: JsonPullRequestMapper (prbetter.core.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JsonPullRequestMapper</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57.1%
+  </span>
+  <span class="absValue">
+    (4/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (3/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    51.6%
+  </span>
+  <span class="absValue">
+    (16/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package prbetter.core.mapper;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.JsonProcessingException;
+&nbsp;import com.fasterxml.jackson.core.JsonToken;
+&nbsp;import com.fasterxml.jackson.core.exc.StreamReadException;
+&nbsp;import com.fasterxml.jackson.core.exc.StreamWriteException;
+&nbsp;import com.fasterxml.jackson.databind.DatabindException;
+&nbsp;import com.fasterxml.jackson.databind.DeserializationFeature;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;import com.fasterxml.jackson.databind.SerializationFeature;
+&nbsp;import com.fasterxml.jackson.databind.cfg.CoercionAction;
+&nbsp;import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
+&nbsp;import com.fasterxml.jackson.databind.cfg.MutableCoercionConfig;
+&nbsp;import com.fasterxml.jackson.databind.json.JsonMapper;
+&nbsp;import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.List;
+&nbsp;import java.util.function.Consumer;
+&nbsp;
+&nbsp;import prbetter.core.domain.PullRequest;
+&nbsp;
+&nbsp;/**
+&nbsp; * 이 클래스는 json 문자열을 {@link PullRequest} 객체로 매핑하는 책임을 가진다.
+&nbsp; *
+&nbsp; * &lt;p&gt;이 클래스는 인스턴스 생성과 상속이 불가능한 정적 유틸 클래스이다.
+&nbsp; */
+&nbsp;
+&nbsp;public final class JsonPullRequestMapper {
+<b class="fc">&nbsp;    private static final Class&lt;PullRequest&gt; PULL_REQUEST_CLASS = PullRequest.class;</b>
+<b class="fc">&nbsp;    private static final Class&lt;PullRequest[]&gt; PULL_REQUEST_ARRAY_CLASS = PullRequest[].class;</b>
+&nbsp;
+<b class="fc">&nbsp;    private static final Consumer&lt;MutableCoercionConfig&gt; strictTypeConfig = (config) -&gt; {</b>
+<b class="fc">&nbsp;        Arrays.stream(CoercionInputShape.values())</b>
+<b class="fc">&nbsp;                .filter(shape -&gt; shape != CoercionInputShape.String)</b>
+<b class="fc">&nbsp;                .forEach(shape -&gt; config.setCoercion(shape, CoercionAction.Fail));</b>
+&nbsp;    };
+&nbsp;
+<b class="fc">&nbsp;    private static final ObjectMapper mapper = JsonMapper.builder()</b>
+<b class="fc">&nbsp;            .addModule(new ParameterNamesModule())</b>
+<b class="fc">&nbsp;            .withCoercionConfig(String.class, strictTypeConfig)</b>
+<b class="fc">&nbsp;            .enable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES) // 객체에 있는 프로퍼티가 json에 없으면 예외 발생</b>
+<b class="fc">&nbsp;            .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES) // json에 있는 프로퍼티가 객체에 없으면 무시하고 진행</b>
+<b class="fc">&nbsp;            .enable(SerializationFeature.INDENT_OUTPUT) // 직렬화시 줄바꿈, 들여쓰기 등을 적용하여 예쁘게 직렬화</b>
+<b class="fc">&nbsp;            .build();</b>
+&nbsp;
+&nbsp;    private JsonPullRequestMapper() {
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 단일 json 객체를 받아 {@link PullRequest}로 매핑한다.
+&nbsp;     *
+&nbsp;     * @throws JsonDeserializeException 매핑 중 오류가 생기면 발생한다.
+&nbsp;     */
+&nbsp;    public static PullRequest mapFromObject(String jsonString) {
+<b class="nc">&nbsp;        if (!isJsonObject(jsonString)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;json 객체가 아닙니다.&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            return mapper.readValue(jsonString, PULL_REQUEST_CLASS);</b>
+&nbsp;        } catch (StreamReadException e) {
+<b class="nc">&nbsp;            throw new JsonDeserializeException(&quot;json 형식에 맞지 않는 입력입니다.&quot;, e);</b>
+&nbsp;        } catch (DatabindException e) {
+<b class="nc">&nbsp;            throw new JsonDeserializeException(&quot;json 프로퍼티를 객체에 바인딩 할 수 없습니다.&quot;, e);</b>
+&nbsp;        } catch (JsonProcessingException e) { // api 문서상으로는 위 두 예외만 명시되어 있지만, 구현상으로는 해당 예외도 던지기 때문에 잡을 필요가 있다.
+<b class="nc">&nbsp;            throw new JsonDeserializeException(&quot;json 처리 도중 예외가 발생했습니다.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * json 배열을 받아 {@link PullRequest}로 매핑한다.
+&nbsp;     *
+&nbsp;     * @throws JsonDeserializeException 매핑 중 오류가 생기면 발생한다.
+&nbsp;     */
+&nbsp;    public static List&lt;PullRequest&gt; mapFromArray(String jsonString) {
+<b class="pc">&nbsp;        if (!isJsonArray(jsonString)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;json 배열이 아닙니다.&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        try {
+<b class="fc">&nbsp;            return List.of(mapper.readValue(jsonString, PULL_REQUEST_ARRAY_CLASS));</b>
+&nbsp;        } catch (StreamReadException e) {
+<b class="nc">&nbsp;            throw new JsonDeserializeException(&quot;json 형식에 맞지 않는 입력입니다.&quot;, e);</b>
+&nbsp;        } catch (DatabindException e) {
+<b class="nc">&nbsp;            throw new JsonDeserializeException(&quot;json 프로퍼티를 객체에 바인딩 할 수 없습니다.&quot;, e);</b>
+&nbsp;        } catch (JsonProcessingException e) { // api 문서상으로는 위 두 예외만 명시되어 있지만, 구현상으로는 해당 예외도 던지기 때문에 잡을 필요가 있다.
+<b class="nc">&nbsp;            throw new JsonDeserializeException(&quot;json 처리 도중 예외가 발생했습니다.&quot;, e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isJsonObject(String jsonString) {
+<b class="nc">&nbsp;        return jsonString.startsWith(JsonToken.START_OBJECT.asString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isJsonArray(String jsonString) {
+<b class="fc">&nbsp;        return jsonString.startsWith(JsonToken.START_ARRAY.asString());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void writeToFile(String filePath, List&lt;PullRequest&gt; content) {
+&nbsp;        try {
+<b class="nc">&nbsp;            mapper.writeValue(new File(filePath), content);</b>
+&nbsp;        } catch (StreamWriteException e) {
+<b class="nc">&nbsp;            throw new JsonSerializeException(e);</b>
+&nbsp;        } catch (DatabindException e) {
+<b class="nc">&nbsp;            throw new JsonSerializeException(e);</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;            throw new RuntimeException(e);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-24 18:20</div>
+</div>
+</body>
+</html>

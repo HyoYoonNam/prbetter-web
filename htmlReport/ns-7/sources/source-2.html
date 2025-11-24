@@ -1,0 +1,251 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PullRequestReadService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">prbetter.core.service</a>
+</div>
+
+<h1>Coverage Summary for Class: PullRequestReadService (prbetter.core.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PullRequestReadService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    10%
+  </span>
+  <span class="absValue">
+    (1/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.6%
+  </span>
+  <span class="absValue">
+    (1/39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package prbetter.core.service;
+&nbsp;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import prbetter.core.domain.GitHubRepositoryName;
+&nbsp;import prbetter.core.domain.PullRequest;
+&nbsp;import prbetter.core.mapper.JsonPullRequestMapper;
+&nbsp;import prbetter.util.FileUtils;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.net.URI;
+&nbsp;import java.net.http.HttpClient;
+&nbsp;import java.net.http.HttpRequest;
+&nbsp;import java.net.http.HttpResponse;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * 이 클래스는 GitHub API를 호출하여 특정 깃허브 리포지토리의 Pull request 목록을 읽어 오는 책임을 가진다.
+&nbsp; *
+&nbsp; * &lt;p&gt;이 클래스는 {@code final}이므로 상속이 불가하다.
+&nbsp; */
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@AllArgsConstructor
+&nbsp;public final class PullRequestReadService {
+&nbsp;    private static final String GITHUB_AUTHORIZATION_TOKEN_PATH = &quot;secret/GITHUB_TOKEN&quot;;
+&nbsp;    private static final String API_URI_PREFIX = &quot;https://api.github.com/repos/woowacourse-precourse/&quot;;
+&nbsp;    private static final String API_URI_POSTFIX = &quot;/pulls&quot;;
+&nbsp;    private static final int HTTP_PAGE_NOT_FOUND = 404;
+&nbsp;    private static final int HTTP_OK = 200;
+&nbsp;    private static final String WOOWACOURSE_PRECOURSE_REPOSITORIES = &quot;https://github.com/orgs/woowacourse-precourse/repositories&quot;;
+&nbsp;    private static final String RESPONSE_STATUS_CODE_AND_BODY = &quot;응답 코드=%d, 응답 내용=%s&quot;;
+&nbsp;
+&nbsp;    private final HttpClient client;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 리포지토리에 존재하는 모든 Pull request를 읽어 온다.
+&nbsp;     *
+&nbsp;     * @param name Pull request를 읽어 올 리포지토리의 이름
+&nbsp;     * @return Pull request 목록
+&nbsp;     * @throws IllegalStateException    다음 경우에 발생한다.
+&nbsp;     *                                  - API 요청 중 통신 오류나 스레드 인터럽트가 생겨 서버가 수신하지 못한 경우
+&nbsp;     *                                  - API 요청을 서버가 수신했으나, 실패한 응답(코드)을 받은 경우
+&nbsp;     * @throws IllegalArgumentException API 요청이 잘못된 경우 발생한다.
+&nbsp;     */
+&nbsp;    public List&lt;PullRequest&gt; readAllPages(GitHubRepositoryName name) {
+<b class="nc">&nbsp;        List&lt;PullRequest&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        int currentPage = 0;</b>
+&nbsp;
+&nbsp;        while (true) {
+<b class="nc">&nbsp;            HttpResponse&lt;String&gt; httpResponse = read(name, ++currentPage);</b>
+&nbsp;
+<b class="nc">&nbsp;            List&lt;PullRequest&gt; pullRequests = JsonPullRequestMapper.mapFromArray(httpResponse.body());</b>
+<b class="nc">&nbsp;            result.addAll(pullRequests);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (isLastPage(httpResponse)) {</b>
+&nbsp;                break;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private HttpResponse&lt;String&gt; read(GitHubRepositoryName name, int page) {
+<b class="nc">&nbsp;        HttpRequest httpRequest = getRequest(name, page);</b>
+<b class="nc">&nbsp;        return getResponse(httpRequest);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private HttpRequest getRequest(GitHubRepositoryName name, int page) {
+<b class="nc">&nbsp;        URI apiUri = URI.create(API_URI_PREFIX + name.value() + API_URI_POSTFIX + &quot;?per_page=30&quot; + &quot;&amp;page=&quot; + page);</b>
+<b class="nc">&nbsp;        return HttpRequest.newBuilder()</b>
+<b class="nc">&nbsp;                .GET()</b>
+<b class="nc">&nbsp;                .uri(apiUri)</b>
+<b class="nc">&nbsp;                .header(&quot;Accept&quot;, &quot;application/vnd.github.json&quot;)</b>
+<b class="nc">&nbsp;                .header(&quot;Authorization&quot;, &quot;Bearer &quot; + FileUtils.readString(GITHUB_AUTHORIZATION_TOKEN_PATH).strip())</b>
+<b class="nc">&nbsp;                .build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private HttpResponse&lt;String&gt; getResponse(HttpRequest httpRequest) {
+&nbsp;        HttpResponse&lt;String&gt; response;
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            log.info(&quot;GitHub API request to URI: {}&quot;, httpRequest.uri());</b>
+<b class="nc">&nbsp;            response = client.send(httpRequest, HttpResponse.BodyHandlers.ofString());</b>
+&nbsp;        } catch (InterruptedException e) {
+<b class="nc">&nbsp;            Thread.currentThread().interrupt();</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;스레드가 인터럽트 되었습니다.&quot;, e);</b>
+&nbsp;        } catch (IOException e) {
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;GitHub API 통신 중 오류가 발생했습니다.&quot;, e);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        validateHttpStatusCode(response);</b>
+&nbsp;
+<b class="nc">&nbsp;        return response;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void validateHttpStatusCode(HttpResponse&lt;String&gt; response) {
+<b class="nc">&nbsp;        if (response.statusCode() == HTTP_PAGE_NOT_FOUND) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;존재하지 않는 리포지토리입니다. See: &quot; + WOOWACOURSE_PRECOURSE_REPOSITORIES);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (response.statusCode() != HTTP_OK) {</b>
+<b class="nc">&nbsp;            throwAppropriateException(response);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void throwAppropriateException(HttpResponse&lt;String&gt; response) {
+<b class="nc">&nbsp;        String detailMessage = RESPONSE_STATUS_CODE_AND_BODY.formatted(response.statusCode(), response.body());</b>
+&nbsp;
+<b class="nc">&nbsp;        if (isClientError(response)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;잘못된 요청입니다.&quot; + detailMessage);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (isServerError(response)) {</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;서버가 요청을 처리하지 못했습니다.&quot; + detailMessage);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        throw new IllegalStateException(&quot;HTTP 요청이 성공하지 못했습니다.&quot; + detailMessage);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isClientError(HttpResponse&lt;String&gt; response) {
+<b class="nc">&nbsp;        return 400 &lt;= response.statusCode() &amp;&amp; response.statusCode() &lt;= 499;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static boolean isServerError(HttpResponse&lt;String&gt; response) {
+<b class="nc">&nbsp;        return 500 &lt;= response.statusCode() &amp;&amp; response.statusCode() &lt;= 599;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean isLastPage(HttpResponse&lt;String&gt; response) {
+<b class="nc">&nbsp;        return response.headers().firstValue(&quot;link&quot;)</b>
+<b class="nc">&nbsp;                .map(header -&gt; !header.contains(&quot;rel=\&quot;next\&quot;&quot;)) // rel=&quot;next&quot;가 없거나</b>
+<b class="nc">&nbsp;                .orElse(true); // link 헤더가 아예 없거나</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-11-24 18:20</div>
+</div>
+</body>
+</html>
