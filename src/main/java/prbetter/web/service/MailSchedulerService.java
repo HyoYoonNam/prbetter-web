@@ -7,6 +7,7 @@ import prbetter.core.domain.GitHubRepositoryName;
 import prbetter.core.domain.PullRequest;
 import prbetter.core.service.PullRequestRecommendService;
 
+import java.time.ZoneId;
 import java.util.*;
 
 @Slf4j
@@ -57,6 +58,7 @@ public class MailSchedulerService {
 
     private static Date getFirstExecutionTime(int hour) {
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeZone(TimeZone.getTimeZone(ZoneId.of("Asia/Seoul")));
 
         calendar.set(Calendar.HOUR_OF_DAY, hour);
         calendar.set(Calendar.MINUTE, 0);
