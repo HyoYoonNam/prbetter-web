@@ -23,7 +23,6 @@
 ### Meta
 [![WoowaCourse](https://img.shields.io/badge/Project_For-WoowaCourse_Pre--course-00C854?style=flat-square&logo=woowabrothers&logoColor=white)](https://woowacourse.github.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Docusaurus](https://img.shields.io/badge/Docs-Docusaurus-3ECC5F?style=flat-square&logo=docusaurus&logoColor=white)](여기에_도큐사우루스_사이트_URL_입력)
 ![Last Commit](https://img.shields.io/github/last-commit/hyoyoonnam/prbetter-web?style=flat-square&color=important)
 
 ---
