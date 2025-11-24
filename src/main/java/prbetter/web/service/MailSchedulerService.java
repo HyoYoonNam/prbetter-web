@@ -25,6 +25,7 @@ public class MailSchedulerService {
     }
 
     public void start() {
+        log.info("Scheduler start");
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -50,6 +51,7 @@ public class MailSchedulerService {
         };
 
         Date firstExecutionTime = getFirstExecutionTime(FIXED_MAILING_TIME_HOUR);
+        log.info("First execution time is {}", firstExecutionTime);
         timer.scheduleAtFixedRate(timerTask, firstExecutionTime, ONE_DAY_MILLI_SECONDS);
     }
 
