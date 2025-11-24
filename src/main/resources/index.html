@@ -54,7 +54,16 @@
 <form action="/email-subscribe" method="post">
     <input type="email" name="userEmail" placeholder="받으실 이메일 주소" required>
 
-    <input type="number" name="period" placeholder="추천받을 기간" required>
+    <select name="period" id="email-subscribe-period-select" required>
+        <option value="">--추천받을 기간을 선택해 주세요(단위: 일).--</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+    </select>
 
     <select name="language" id="email-subscribe-language-select" required>
         <option value="">--언어를 선택해 주세요.--</option>
